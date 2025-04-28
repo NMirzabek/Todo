@@ -1,0 +1,40 @@
+package com.example.springdb.entity;
+
+public enum Permissions {
+    //USER
+    CREATE_USER,
+    UPDATE_USER,
+    DELETE_USER,
+    SHOW_USER,
+    //ALBUMLAR UCHUN
+    CREATE_ALBUM,
+    UPDATE_ALBUM,
+    DELETE_ALBUM,
+    SHOW_ALBUM,
+    //PHOTOLAR UCHUN
+    CREATE_PHOTO,
+    UPDATE_PHOTO,
+    DELETE_PHOTO,
+    SHOW_PHOTO,
+    //TODOLAR
+    CREATE_TO_DO,
+    UPDATE_TO_DO,
+    DELETE_TO_DO,
+    SHOW_TO_DO,
+    //POST
+    CREATE_POST,
+    UPDATE_POST,
+    DELETE_POST,
+    SHOW_POST,
+    //COMMENTS
+    CREATE_COMMENT,
+    UPDATE_COMMENT,
+    DELETE_COMMENT,
+    SHOW_COMMENT,
+
+    //SUPER ADMINGA
+    CREATE_JSON_USER,
+    UPDATE_JSON_USER,
+    DELETE_JSON_USER,
+    SHOW_JSON_USER,
+}

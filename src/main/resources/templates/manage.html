@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage JSON Users</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --accent: #fd79a8;
+            --dark: #2d3436;
+            --light: #f5f6fa;
+            --success: #00b894;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins', sans-serif; }
+        body { background: linear-gradient(135deg,#f5f7fa 0%,#c3cfe2 100%); min-height:100vh; padding:20px; }
+        .container { max-width:1200px; margin:0 auto; background:rgba(255,255,255,0.9); backdrop-filter:blur(10px); border-radius:15px; padding:30px; box-shadow:0 10px 20px rgba(0,0,0,0.1); }
+        .header { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
+        .header h1 { color:var(--dark); font-size:1.8rem; }
+        .btn { padding:10px 20px; border:none; border-radius:50px; font-weight:600; cursor:pointer; text-decoration:none; color:#fff; background:var(--primary); transition:0.3s; }
+        .btn:hover { opacity:0.9; }
+        .btn-add-role { background: var(--accent); }
+        table { width:100%; border-collapse:collapse; margin-top:20px; }
+        th, td { padding:12px 15px; border-bottom:1px solid #ddd; text-align:left; }
+        th { background:var(--primary); color:#fff; }
+        tr:hover { background:#f1f1f1; }
+        .action-btn { padding:6px 12px; border:none; border-radius:8px; font-size:0.9rem; cursor:pointer; color:#fff; transition:0.3s; text-decoration:none; }
+        .btn-edit { background:#00b894; }
+        .btn-delete { background:#e74c3c; margin-left:5px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>Manage JSON Users</h1>
+        <div>
+            <a sec:authorize="hasRole('ROLE_SUPER_ADMIN')" href="/role/add" class="btn btn-add-role">
+                <i class="fas fa-plus"></i> Add Role
+            </a>
+        </div>
+    </div>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Password</th>
+            <th>Roles</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.username}"></td>
+            <td>******</td>
+            <td>
+                <span th:each="role : ${user.roles}" th:text="${role.name}">
+                    <span th:text="${role.name}"></span><span> </span>
+                </span>
+            </td>
+            <td>
+                <a th:href="@{/manage/json/users/edit/{id}(id=${user.id})}" class="action-btn btn-edit">
+                    <i class="fas fa-edit"></i> Edit
+                </a>
+                <form th:action="@{/manage/json/users/delete/{id}(id=${user.id})}" method="post" style="display:inline">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                    <button type="submit" class="action-btn btn-delete" onclick="return confirm('Are you sure?')">
+                        <i class="fas fa-trash-alt"></i> Delete
+                    </button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

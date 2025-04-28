@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Role</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --accent: #fd79a8;
+            --dark: #2d3436;
+            --light: #f5f6fa;
+            --success: #00b894;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins', sans-serif; }
+        body { background: linear-gradient(135deg,#f5f7fa 0%,#c3cfe2 100%); min-height:100vh; padding:20px; }
+        .container { max-width:600px; margin:40px auto; background:rgba(255,255,255,0.9); backdrop-filter:blur(10px); border-radius:15px; padding:30px; box-shadow:0 10px 20px rgba(0,0,0,0.1); }
+        h1 { color:var(--dark); font-size:1.8rem; margin-bottom:20px; text-align:center; }
+        form { display:flex; flex-direction:column; gap:20px; }
+        .form-group { display:flex; flex-direction:column; }
+        label { margin-bottom:8px; color:var(--dark); font-weight:500; }
+        input[type="text"], select {
+            padding:10px; border:2px solid var(--secondary, #ccc); border-radius:8px; font-size:1rem; outline:none; transition:0.3s;
+        }
+        input:focus, select:focus { border-color:var(--primary); }
+        .permissions-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .permissions-list label {
+            font-weight: 400;
+        }
+        .btn-submit {
+            padding:12px; border:none; border-radius:50px; font-weight:600; cursor:pointer; background:var(--primary); color:#fff; transition:0.3s;
+        }
+        .btn-submit:hover { background:var(--accent); }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Create Role</h1>
+    <form th:action="@{/manage/json/roles/create}" method="post">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+        <!-- Role Name -->
+        <div class="form-group">
+            <label for="name">Role Name</label>
+            <input type="text" id="name" name="name" placeholder="Enter role name" required />
+        </div>
+
+        <!-- Permissions -->
+        <div class="form-group">
+            <div class="permissions-list">
+                <div th:each="permission : ${permissions}">
+                    <label>
+                        <!-- Checkbox for each permission -->
+                        <input type="checkbox" name="permissions" th:value="${permission.id}" />
+                        <span th:text="${permission.permission}"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn-submit">Create Role</button>
+    </form>
+</div>
+</body>
+</html>
